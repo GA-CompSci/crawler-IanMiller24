@@ -24,7 +24,7 @@ public class Runner {
             } else if(choice.equalsIgnoreCase("a")){
 
             } else if(choice.equalsIgnoreCase("h")){
-
+                Player.heal(level);
             }else{
                 System.out.println("Invalid choice. Try again");
             }
