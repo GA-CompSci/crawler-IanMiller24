@@ -2,10 +2,9 @@ import java.util.Scanner;
 import monsters.Monster;
 
 public class Runner {
-
+    private static int level = 1;
     public static void main(String[] args){
         //Set up key variables
-        int level = 1;
         boolean gameOver = false;
         Scanner input = new Scanner(System.in);
         
@@ -17,13 +16,14 @@ public class Runner {
             printMenu();
             String choice = input.nextLine();
 
-            Monster m = generateMonster(level);
+            Monster m = generateMonster();
 
             if(choice.equalsIgnoreCase("q")){
                 gameOver = true;
             } else if(choice.equalsIgnoreCase("a")){
 
             } else if(choice.equalsIgnoreCase("h")){
+                //if in the same folder, no import
                 Player.heal(level);
             }else{
                 System.out.println("Invalid choice. Try again");
@@ -35,11 +35,13 @@ public class Runner {
         input.close();
     }
 
-    public static Monster generateMonster(int level){
+    public static Monster generateMonster(){
         return null;
     }
     
     public static void printMenu() {
+        System.out.println("You're now on level " + level);
+        System.out.println("Your health is " + Player.health);
         System.out.println("Press q to quit.");
         System.out.println("Press a to attack.");
         System.out.println("Press h to heal.");
