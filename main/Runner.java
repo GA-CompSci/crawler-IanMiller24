@@ -1,5 +1,7 @@
+package main;
 import java.util.Scanner;
-import monsters.Monster;
+import main.monsters.Monster;
+import main.monsters.Zombie;
 
 public class Runner {
     private static int level = 1;
@@ -36,7 +38,11 @@ public class Runner {
     }
 
     public static Monster generateMonster(){
-        return null;
+        int minHit = 1 + level;
+        int maxHit = 5 + level;
+        int health = 10 + level;
+        
+
     }
     
     public static void printMenu() {

@@ -1,6 +1,7 @@
-package monsters;
+package main.monsters;
 //connects to monsters folder
 
+//subclasses required to make an instance of one of these
 public abstract class Monster {
     //encapsulated variables
     private int health;
@@ -9,6 +10,7 @@ public abstract class Monster {
     private int maxDamage;
     private String name;
 
+    //OVERLOADED CONSTRUCTORS
     //blank constructor
     public Monster(){
         health = 100;
