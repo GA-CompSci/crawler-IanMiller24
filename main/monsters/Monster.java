@@ -9,6 +9,7 @@ public abstract class Monster {
     private int minDamage;
     private int maxDamage;
     private String name;
+    private boolean fastAttack;
 
     //OVERLOADED CONSTRUCTORS
     //blank constructor
@@ -18,15 +19,17 @@ public abstract class Monster {
         minDamage = 1;
         maxDamage = 10;
         name = "monster";
+        fastAttack = false;
     }
 
     //constructor
-    public Monster(int h, int l, int min, int max, String n){
+    public Monster(int h, int l, int min, int max, String n, boolean fast){
         health = h;
         levelModifier = l;
         minDamage = min;
         maxDamage = max;
         name = n;
+        fastAttack = fast;
     }
 
     //health modifier
@@ -48,8 +51,20 @@ public abstract class Monster {
         return (int) (Math.random() * (maxDamage - minDamage) + minDamage);
     }
 
+    public boolean getFastAttack(){
+        return fastAttack;
+    }
+
     public boolean isDead(){
         return health <= 0;
+    }
+
+    public String getStatus(){
+        return name + " (lvl " + levelModifier + ") - " + health + " hp";
+    }
+
+    public String getName(){
+        return name;
     }
 
     //abstract promises

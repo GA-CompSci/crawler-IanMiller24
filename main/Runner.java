@@ -1,5 +1,9 @@
 package main;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
+import java.util.function.Supplier;
 import main.monsters.Monster;
 import main.monsters.Zombie;
 
@@ -13,20 +17,36 @@ public class Runner {
         //print a welcome message to the user
         System.out.println("Welcome to Ian Miller's Gloriously Mindful Monster Game!");
 
+        //initial monster
+        Monster m = generateMonster();
+
         //game loop
         while(!gameOver){
-            printMenu();
-            String choice = input.nextLine();
 
-            Monster m = generateMonster();
+            if (m.getFastAttack()){
+                m.attack();
+                if(Player.health <= 0){
+                    m.taunt();
+                    gameOver = true;
+                    break;
+                }
+            }
+            
+            printMenu(m);
+            String choice = input.nextLine();
 
             if(choice.equalsIgnoreCase("q")){
                 gameOver = true;
             } else if(choice.equalsIgnoreCase("a")){
-
+                //check if monster has been defeated
+                Player.attack(m);
+                if(m.isDead()){
+                    //advance level; congratulate; create new monster
+                }
             } else if(choice.equalsIgnoreCase("h")){
                 //if in the same folder, no import
                 Player.heal(level);
+                //monster taunt
             }else{
                 System.out.println("Invalid choice. Try again");
             }
@@ -37,15 +57,40 @@ public class Runner {
         input.close();
     }
 
-    public static Monster generateMonster(){
-        int minHit = 1 + level;
-        int maxHit = 5 + level;
-        int health = 10 + level;
-        
+    public static Monster generateMonster() {
+        // We are setting the initial stats for the monster based on the player's level
+        int minHit = level;            // The minimum damage the monster can deal
+        int maxHit = 5 + level;        // The maximum damage the monster can deal
+        int health = 10 + level;       // The monster's health, increasing as the player levels up
 
+        /* 
+        Using a List instead of an array for Suppliers to avoid type safety issues.
+        List provides better type safety with generics.
+        */
+        
+        List<Supplier<Monster>> constructors = Arrays.asList(
+            // Each lambda here is like a "blueprint" that builds a specific type of Monster when we call .get()
+            () -> new Zombie(health, level, minHit, maxHit)
+            // Add more monster types here as needed, following the same pattern.
+        );
+
+        // Create an instance of the Random class, which helps us choose a random monster from our list
+        Random random = new Random();
+        
+        // We randomly pick an index from the list of suppliers
+        int index = random.nextInt(constructors.size());
+
+        // We call .get() on the chosen Supplier, which finally runs the constructor for the selected monster
+        return constructors.get(index).get();  
+
+        /* 
+        This method will only run the constructor for the monster after we've picked one randomly.
+        This avoids unnecessary work and ensures efficiency.
+        */
     }
     
-    public static void printMenu() {
+    public static void printMenu(Monster m) {
+        System.out.println(m.getStatus());
         System.out.println("You're now on level " + level);
         System.out.println("Your health is " + Player.health);
         System.out.println("Press q to quit.");

@@ -2,8 +2,11 @@ package main.monsters;
 import main.Player;
 
 public class Zombie extends Monster {
-    public Zombie(int h, int l, int min, int max, String n){
-        super(h, l, min, max, n);
+    public Zombie(int h, int l, int min, int max){
+        super(h, l, min, max, "Zombie", false);
+
+        //WE MUST ANNOUNCE THE MONSTER
+        System.out.println("Is that your ex-wife?!?!  Oh, it's only a Zombie");
     }
 
     //not static because individual zombie
