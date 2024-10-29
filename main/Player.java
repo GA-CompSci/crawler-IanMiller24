@@ -10,7 +10,7 @@ public class Player {
             System.out.println("Critical fail! You hurt yourself!");
             takeDamage(5);
         } else {
-            System.out.println("You attack the " + m.getName() + " for " + baseDamage + "damage");
+            System.out.println("You attack the " + m.getName() + " for " + baseDamage + " damage");
             m.setHealth(m.getHealth() - baseDamage);
         }
     }

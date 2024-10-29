@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.util.function.Supplier;
 import main.monsters.Monster;
 import main.monsters.Zombie;
+import main.monsters.MrAdilettasEvilTwinNamedMrBadiletta;
 
 public class Runner {
     private static int level = 1;
@@ -37,22 +38,34 @@ public class Runner {
 
             if(choice.equalsIgnoreCase("q")){
                 gameOver = true;
+
             } else if(choice.equalsIgnoreCase("a")){
-                //check if monster has been defeated
                 Player.attack(m);
                 if(m.isDead()){
-                    //advance level; congratulate; create new monster
+                    level++;
+                    System.out.println("You have defeated the " + m.getName() + "!");
+                    m = generateMonster();
+                    continue;
                 }
+
             } else if(choice.equalsIgnoreCase("h")){
                 //if in the same folder, no import
                 Player.heal(level);
-                //monster taunt
+                m.taunt();
             }else{
                 System.out.println("Invalid choice. Try again");
             }
+
+            if (!m.getFastAttack()){
+                m.attack();
+                if(Player.health <= 0){
+                    m.taunt();
+                    gameOver = true;
+                }
+            }
         }
 
-        //goodbye message
+        System.out.println("Goodbye! You made it to level " + level + "!");
 
         input.close();
     }
@@ -70,8 +83,9 @@ public class Runner {
         
         List<Supplier<Monster>> constructors = Arrays.asList(
             // Each lambda here is like a "blueprint" that builds a specific type of Monster when we call .get()
-            () -> new Zombie(health, level, minHit, maxHit)
+            () -> new Zombie(health, level, minHit, maxHit),
             // Add more monster types here as needed, following the same pattern.
+            () -> new MrAdilettasEvilTwinNamedMrBadiletta(health, health, minHit, maxHit)
         );
 
         // Create an instance of the Random class, which helps us choose a random monster from our list
